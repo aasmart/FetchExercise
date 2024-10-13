@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Fetch Exercise</string>
+    <string name="item_name">Item Name</string>
+    <string name="item_id">Item Id</string>
+    <string name="list_id">List Id</string>
+    <string name="welcome">Welcome</string>
+    <string name="items">Items</string>
+    <string name="no_items">There are no items to display</string>
+    <string name="loading_items">Loading Items</string>
 </resources>
