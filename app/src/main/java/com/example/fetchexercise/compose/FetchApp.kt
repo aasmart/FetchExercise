@@ -14,12 +14,10 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -38,6 +36,18 @@ import com.example.fetchexercise.api.DataItem
 import com.example.fetchexercise.compose.components.LoadingWheel
 import com.example.fetchexercise.viewmodels.MainState
 import com.example.fetchexercise.viewmodels.MainViewModel
+
+/**
+ * Filters items by non-empty, non-null names, sorts item names lexicographically,
+ * then groups them by list ID
+ * @param items The items to sort
+ * @return A filtered and sorted map by List Id
+ */
+fun filterAndGroupItems(items: List<DataItem>): Map<Int?, List<DataItem>> {
+    return items.filter { !it.name.isNullOrEmpty() }
+        .sortedBy { it.name }
+        .groupBy { it.listId }
+}
 
 /**
  * Displays a list of items
@@ -135,10 +145,7 @@ fun ItemList(
             }
         } else {
             // filter items by name, then group by List ID
-            val items = itemsState
-                .filter { !it.name.isNullOrEmpty() }
-                .sortedBy { it.name }
-                .groupBy { it.listId }
+            val items = filterAndGroupItems(itemsState)
 
             if(items.isEmpty()) {
                 item {
